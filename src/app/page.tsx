@@ -20,7 +20,11 @@ export default async function Home() {
           </div>
 
           <div className='flex mt-2'>
-            {isAuth && <Button>Go to chats</Button>}
+            {isAuth && (
+              <Button className='bg-indigo-200 text-indigo-900 hover:cursor-pointer hover:bg-indigo-300'>
+                Go to chats
+              </Button>
+            )}
           </div>
 
           <p className='text-indigo-200 max-w-xl text-lg mt-1'>
