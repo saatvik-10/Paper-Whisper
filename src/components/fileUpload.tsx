@@ -26,7 +26,7 @@ const FileUpload = () => {
         file_key,
         file_name,
       });
-      return res.data;
+      return res.data; //chat_id
     },
   });
 
