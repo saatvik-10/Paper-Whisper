@@ -15,7 +15,7 @@ export default async function Home() {
         <div className='flex flex-col items-center text-center'>
           <div className='flex items-center'>
             <h1 className='mr-3 text-5xl font-semibold text-indigo-300'>
-              Chat with your PDF
+              Paper Whisper
             </h1>
             <UserButton />
           </div>
