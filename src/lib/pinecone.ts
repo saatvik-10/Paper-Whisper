@@ -1,6 +1,10 @@
 import { Pinecone } from '@pinecone-database/pinecone';
 import { downloadFromS3 } from './s3-server';
 import { PDFLoader } from '@langchain/community/document_loaders/fs/pdf';
+import {
+  Document,
+  RecursiveCharacterTextSplitter,
+} from '@pinecone-database/doc-splitter';
 
 type PDFPage = {
   pageContent: string;
@@ -28,5 +32,38 @@ export async function loadS3ToPinecone(fileKey: string) {
 
   const loader = new PDFLoader(file_name);
   const pages = (await loader.load()) as PDFPage[];
-  return pages;
+
+  //splitting the pdf into pages
+  const document = await Promise.all(pages.map(prepareDocument));
+
+  //vector and embed the docs
 }
+
+async function prepareDocument(page: PDFPage) {
+  let { pageContent, metadata } = page;
+  pageContent = pageContent.replace(/\n/g, ''); //regex to remove new lines with empty string
+
+  //split the docs
+  const splitter = new RecursiveCharacterTextSplitter();
+  const docs = await splitter.splitDocuments([
+    new Document({
+      pageContent,
+      metadata: {
+        loc: {
+          pageNumber: metadata.loc.pageNumber,
+          text: TruncateStringByBytes(pageContent, 36000),
+        },
+      },
+    }),
+  ]);
+  return docs;
+}
+
+// async function embedDocument(docs: Document[]) {
+
+// }
+
+export const TruncateStringByBytes = (str: string, bytes: number) => {
+  const enc = new TextEncoder();
+  return new TextDecoder('utf-8').decode(enc.encode(str).slice(0, bytes));
+};
