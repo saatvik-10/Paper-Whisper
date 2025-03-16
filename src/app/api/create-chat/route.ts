@@ -31,7 +31,7 @@ export async function POST(req: Request, res: Response) {
         pdfUrl: getS3Url(file_key),
         userId,
       })
-      .returning({
+      .returning({ //after inserting, give back the ID of the new row
         insertedId: chats.id,
       });
 
