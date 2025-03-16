@@ -2,6 +2,15 @@ import { Pinecone } from '@pinecone-database/pinecone';
 import { downloadFromS3 } from './s3-server';
 import { PDFLoader } from '@langchain/community/document_loaders/fs/pdf';
 
+type PDFPage = {
+  pageContent: string;
+  metadata: {
+    loc: {
+      pageNumber: number;
+    };
+  };
+};
+
 export const getPineconeClient = () => {
   return new Pinecone({
     apiKey: process.env.PINECONE_API_KEY!,
@@ -18,6 +27,6 @@ export async function loadS3ToPinecone(fileKey: string) {
   }
 
   const loader = new PDFLoader(file_name);
-  const pages = await loader.load();
+  const pages = (await loader.load()) as PDFPage[];
   return pages;
 }
