@@ -1,16 +1,12 @@
-import AWS from 'aws-sdk';
+import { S3 } from 'aws-sdk';
 export async function uploadToS3(file: File) {
   try {
-    AWS.config.update({
-      accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
-    });
-
-    const s3 = new AWS.S3({
-      params: {
-        Bucket: process.env.NEXT_PUBLIC_AWS_BUCKET_NAME,
-      },
+    const s3 = new S3({
       region: 'ap-south-1',
+      credentials: {
+        accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID!,
+        secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY!,
+      },
     });
 
     const file_key =
@@ -34,6 +30,7 @@ export async function uploadToS3(file: File) {
 
     await upload.then((data) => {
       console.log('successfully uploaded to S3', file_key);
+
     });
 
     return Promise.resolve({
