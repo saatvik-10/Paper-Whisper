@@ -1,0 +1,51 @@
+import { db } from '@/lib/db';
+import { chats } from '@/lib/db/schema';
+import { auth } from '@clerk/nextjs/server';
+import { eq } from 'drizzle-orm';
+import { redirect } from 'next/navigation';
+import React from 'react';
+
+type Props = {
+  params: {
+    chatId: string;
+  };
+};
+
+const ChatPage = async ({ params: { chatId } }: Props) => {
+  const { userId } = await auth();
+
+  if (!userId) {
+    redirect('/sign-in');
+  }
+
+  //_chats is the list we get from the database
+  const _chats = db.select().from(chats).where(eq(chats.userId, userId));
+  if (!chats) {
+    redirect('/');
+  }
+
+  if (!(await _chats).find((chat) => chat.id === parseInt(chatId))) {
+    redirect('/');
+  }
+
+  return (
+    <div className='flex max-h-screen overflow-scroll'>
+      <div className='flex w-full max-h-screen overflow-scroll'>
+        {/* sidebar */}
+        <div className='flex-[1] max-w-xs'>{/* <ChatSidebar /> */}</div>
+
+        {/* pdf viewer */}
+        <div className='max-h-screen overflow-scroll flex-[5]'>
+          {/* <PDFViewer /> */}
+        </div>
+
+        {/* chat component */}
+        <div className='flex-[3] border-l-r border-l-slate-200'>
+          {/* <ChatComponent /> */}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ChatPage;
