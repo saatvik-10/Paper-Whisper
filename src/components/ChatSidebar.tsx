@@ -43,8 +43,12 @@ const ChatSidebar = ({ chats, chatId }: Props) => {
 
       <div className='absolute bottom-4 left-4'>
         <div className='flex items-center gap-2 text-sm text-indigo-200 flex-wrap font-semibold'>
-          <Link href='/'>Home</Link>
-          <Link href='/'>Source</Link>
+          <Link className='hover:underline' href='/'>
+            Home
+          </Link>
+          <Link className='hover:underline' href='/'>
+            Source
+          </Link>
         </div>
       </div>
     </div>
