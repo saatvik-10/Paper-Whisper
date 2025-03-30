@@ -44,7 +44,7 @@ export async function loadS3ToPinecone(fileKey: string) {
 
   //uploading to pinecone db
   const client = await getPineconeClient();
-  const pineconeIndex = await client.index('paper-whisper');
+  const pineconeIndex = await client.Index('paper-whisper');
   const namespace = pineconeIndex.namespace(convertToAscii(fileKey));
 
   console.log('inserting vectors into pinecone');
@@ -54,38 +54,18 @@ export async function loadS3ToPinecone(fileKey: string) {
   return documents[0];
 }
 
-async function prepareDocument(page: PDFPage) {
-  let { pageContent, metadata } = page;
-  pageContent = pageContent.replace(/\n/g, ''); //regex to remove new lines with empty string
-
-  //split the docs
-  const splitter = new RecursiveCharacterTextSplitter();
-  const docs = await splitter.splitDocuments([
-    new Document({
-      pageContent,
-      metadata: {
-        loc: {
-          pageNumber: metadata.loc.pageNumber,
-          text: TruncateStringByBytes(pageContent, 36000),
-        },
-      },
-    }),
-  ]);
-  return docs;
-}
-
-async function embedDocument(docs: Document) {
+async function embedDocument(doc: Document) {
   try {
-    const embeddings = await getEmbeddings(docs.pageContent);
-    const hash = md5(docs.pageContent);
+    const embeddings = await getEmbeddings(doc.pageContent);
+    const hash = md5(doc.pageContent);
 
     return {
       //returning a vector type
       id: hash,
       values: embeddings,
       metadata: {
-        text: docs.metadata.text,
-        pageNumber: docs.metadata.pageNumber,
+        text: doc.metadata.text,
+        pageNumber: doc.metadata.pageNumber,
       },
     } as PineconeRecord;
   } catch (err) {
@@ -98,3 +78,21 @@ export const TruncateStringByBytes = (str: string, bytes: number) => {
   const enc = new TextEncoder();
   return new TextDecoder('utf-8').decode(enc.encode(str).slice(0, bytes));
 };
+
+async function prepareDocument(page: PDFPage) {
+  let { pageContent, metadata } = page;
+  pageContent = pageContent.replace(/\n/g, ''); //regex to remove new lines with empty string
+
+  //split the docs
+  const splitter = new RecursiveCharacterTextSplitter();
+  const docs = await splitter.splitDocuments([
+    new Document({
+      pageContent,
+      metadata: {
+        pageNumber: metadata.loc.pageNumber,
+        text: TruncateStringByBytes(pageContent, 36000),
+      },
+    }),
+  ]);
+  return docs;
+}
