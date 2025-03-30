@@ -1,3 +1,4 @@
+import ChatSidebar from '@/components/ChatSidebar';
 import { db } from '@/lib/db';
 import { chats } from '@/lib/db/schema';
 import { auth } from '@clerk/nextjs/server';
@@ -11,7 +12,8 @@ type Props = {
   };
 };
 
-const ChatPage = async ({ params: { chatId } }: Props) => {
+const ChatPage = async ({ params }: Props) => {
+  const { chatId } = await params;
   const { userId } = await auth();
 
   if (!userId) {
@@ -19,7 +21,7 @@ const ChatPage = async ({ params: { chatId } }: Props) => {
   }
 
   //_chats is the list we get from the database
-  const _chats = db.select().from(chats).where(eq(chats.userId, userId));
+  const _chats = await db.select().from(chats).where(eq(chats.userId, userId));
   if (!chats) {
     redirect('/');
   }
@@ -32,7 +34,9 @@ const ChatPage = async ({ params: { chatId } }: Props) => {
     <div className='flex max-h-screen overflow-scroll'>
       <div className='flex w-full max-h-screen overflow-scroll'>
         {/* sidebar */}
-        <div className='flex-[1] max-w-xs'>{/* <ChatSidebar /> */}</div>
+        <div className='flex-[1.6] max-w-xs'>
+          <ChatSidebar chats={_chats} chatId={parseInt(chatId)} />
+        </div>
 
         {/* pdf viewer */}
         <div className='max-h-screen overflow-scroll flex-[5]'>
