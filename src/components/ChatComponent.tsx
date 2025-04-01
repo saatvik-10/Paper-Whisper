@@ -11,7 +11,7 @@ type Props = {};
 
 const ChatComponent = (props: Props) => {
   const { input, handleInputChange, handleSubmit, messages } = useChat({
-    api:'/ai/chat',
+    api:'/api/chat',
   });
 
   return (
