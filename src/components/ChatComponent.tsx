@@ -34,7 +34,7 @@ const ChatComponent = (props: Props) => {
             className='w-full shadow shadow-indigo-300 text-indigo-800'
           />
           <Button className='bg-indigo-700 ml-2'>
-            <Send className='h-4 w-4' />
+            <Send className='h-4 w-4 text-indigo-100' />
           </Button>
         </div>
       </form>

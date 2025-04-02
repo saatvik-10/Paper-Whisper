@@ -10,14 +10,14 @@ const MessageList = ({ messages }: Props) => {
   if (!messages) return <></>;
 
   return (
-    <div className='flex flex-col gap-2 px-4'>
+    <div className='flex flex-col gap-2 px-4 my-2'>
       {messages.map((msg) => {
         return (
           <div
             key={msg.id}
             className={cn('flex', {
-              'justify-start pr-10': msg.role === 'assistant',
               'justify-end pl-10': msg.role === 'user',
+              'justify-start pr-10': msg.role === 'assistant',
             })}
           >
             <div

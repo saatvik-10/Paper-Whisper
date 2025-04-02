@@ -39,8 +39,8 @@ importers:
         specifier: ^5.68.0
         version: 5.68.0(react@19.0.0)
       ai:
-        specifier: ^3.0.0
-        version: 3.0.0(react@19.0.0)(solid-js@1.9.5)(svelte@4.2.19)(vue@3.5.13(typescript@5.8.2))(zod@3.24.2)
+        specifier: ^2.2.11
+        version: 2.2.37(react@19.0.0)(solid-js@1.9.5)(svelte@4.2.19)(vue@3.5.13(typescript@5.8.2))
       aws-sdk:
         specifier: ^2.1692.0
         version: 2.1692.0
@@ -1830,9 +1830,6 @@ packages:
   '@types/debug@4.1.12':
     resolution: {integrity: sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==}
 
-  '@types/diff-match-patch@1.0.36':
-    resolution: {integrity: sha512-xFdR6tkm0MWvBfO8xXCSsinYxHcqkQUlcHeSpMC2ukzOb6lwQAfDmW+Qt0AvlGd8HpsS28qKsB+oPeJn9I39jg==}
-
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
 
@@ -1971,15 +1968,14 @@ packages:
     resolution: {integrity: sha512-kja8j7PjmncONqaTsB8fQ+wE2mSU2DJ9D4XKoJ5PFWIdRMa6SLSN1ff4mOr4jCbfRSsxR4keIiySJU0N9T5hIQ==}
     engines: {node: '>= 8.0.0'}
 
-  ai@3.0.0:
-    resolution: {integrity: sha512-m/b1qqhA8/6kpDE4OSprEtZLTL7qLD72Z0O5Xd93ivC2uca02Bh5WEm2WebGO/lgsa9/LO9BC9LaWXj2Fo9quQ==}
+  ai@2.2.37:
+    resolution: {integrity: sha512-JIYm5N1muGVqBqWnvkt29FmXhESoO5TcDxw74OE41SsM+uIou6NPDDs0XWb/ABcd1gmp6k5zym64KWMPM2xm0A==}
     engines: {node: '>=14.6'}
     peerDependencies:
       react: ^18.2.0
       solid-js: ^1.7.7
       svelte: ^3.0.0 || ^4.0.0
       vue: ^3.3.4
-      zod: ^3.0.0
     peerDependenciesMeta:
       react:
         optional: true
@@ -1988,8 +1984,6 @@ packages:
       svelte:
         optional: true
       vue:
-        optional: true
-      zod:
         optional: true
 
   ajv@6.12.6:
@@ -2261,9 +2255,6 @@ packages:
   detect-libc@2.0.3:
     resolution: {integrity: sha512-bwy0MGW55bG41VqxxypOsdSdGqLwXPI/focwgTYCFMbdUiBAxLg9CFzG08sz2aqzknwiX7Hkl0bQENjg8iLByw==}
     engines: {node: '>=8'}
-
-  diff-match-patch@1.0.5:
-    resolution: {integrity: sha512-IayShXAgj/QMXgB0IWmKx+rOPuGMhqm5w6jvFxmVenXKIzRqTAAsbBPT3kWQeGANj3jGgvcvv4yK6SxqYmikgw==}
 
   doctrine@2.1.0:
     resolution: {integrity: sha512-35mSku4ZXK0vfCuHEDAwt55dg2jNajHZ1odvF+8SSr82EsZY4QmXfuWso8oEd8zRhVObSN18aM0CjSdoBX7zIw==}
@@ -2986,11 +2977,6 @@ packages:
 
   json5@1.0.2:
     resolution: {integrity: sha512-g1MWMLBiz8FKi1e4w0UyVL3w+iJceWAFBAaBnnGKOpNa5f8TLktkbre1+s6oICydWAm+HRUGTmI+//xv2hvXYA==}
-    hasBin: true
-
-  jsondiffpatch@0.6.2:
-    resolution: {integrity: sha512-c4RkbPb6RXWjkhirwcKK87PuZCITdGRN1usrW4pXKEkwp7Gqf+0pSwQHoh/LtlYNHcxzoF6kok2/EFe6KL0qqQ==}
-    engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
 
   jsonpointer@5.0.1:
@@ -5649,8 +5635,6 @@ snapshots:
     dependencies:
       '@types/ms': 2.1.0
 
-  '@types/diff-match-patch@1.0.36': {}
-
   '@types/estree@1.0.6': {}
 
   '@types/json-schema@7.0.15': {}
@@ -5839,23 +5823,20 @@ snapshots:
     dependencies:
       humanize-ms: 1.2.1
 
-  ai@3.0.0(react@19.0.0)(solid-js@1.9.5)(svelte@4.2.19)(vue@3.5.13(typescript@5.8.2))(zod@3.24.2):
+  ai@2.2.37(react@19.0.0)(solid-js@1.9.5)(svelte@4.2.19)(vue@3.5.13(typescript@5.8.2)):
     dependencies:
       eventsource-parser: 1.0.0
-      jsondiffpatch: 0.6.2
       nanoid: 3.3.6
       solid-swr-store: 0.10.7(solid-js@1.9.5)(swr-store@0.10.6)
       sswr: 2.0.0(svelte@4.2.19)
       swr: 2.2.0(react@19.0.0)
       swr-store: 0.10.6
       swrv: 1.0.4(vue@3.5.13(typescript@5.8.2))
-      zod-to-json-schema: 3.24.4(zod@3.24.2)
     optionalDependencies:
       react: 19.0.0
       solid-js: 1.9.5
       svelte: 4.2.19
       vue: 3.5.13(typescript@5.8.2)
-      zod: 3.24.2
 
   ajv@6.12.6:
     dependencies:
@@ -6157,8 +6138,6 @@ snapshots:
   dequal@2.0.3: {}
 
   detect-libc@2.0.3: {}
-
-  diff-match-patch@1.0.5: {}
 
   doctrine@2.1.0:
     dependencies:
@@ -7027,11 +7006,6 @@ snapshots:
   json5@1.0.2:
     dependencies:
       minimist: 1.2.8
-
-  jsondiffpatch@0.6.2:
-    dependencies:
-      '@types/diff-match-patch': 1.0.36
-      diff-match-patch: 1.0.5
 
   jsonpointer@5.0.1: {}
 
