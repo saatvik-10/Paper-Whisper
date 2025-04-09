@@ -17,6 +17,8 @@ const ChatComponent = ({ chatId }: Props) => {
     },
   });
 
+  console.log(messages)
+
   React.useEffect(() => {
     const messageContainer = document.getElementById('message-container');
     if (messageContainer) {

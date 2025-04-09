@@ -5,7 +5,7 @@ import { getS3Url } from '@/lib/s3';
 import { auth } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 
-export async function POST(req: Request, res: Response) {
+export async function POST(req: Request) {
   const { userId } = await auth();
 
   if (!userId) {
@@ -31,7 +31,8 @@ export async function POST(req: Request, res: Response) {
         pdfUrl: getS3Url(file_key),
         userId,
       })
-      .returning({ //after inserting, give back the ID of the new row
+      .returning({
+        //after inserting, give back the ID of the new row
         insertedId: chats.id,
       });
 
@@ -40,7 +41,7 @@ export async function POST(req: Request, res: Response) {
       { status: 200 }
     );
   } catch (err) {
-    console.log(err);
+    console.error('❌ Error in /api/create-chat:', err);
     return NextResponse.json({ err: 'Internal Server Error' }, { status: 500 });
   }
 }

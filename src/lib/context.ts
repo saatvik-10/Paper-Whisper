@@ -25,12 +25,17 @@ export async function getMatchesFromEmbeddings(
 }
 
 export async function getContext(query: string, fileKey: string) {
+  console.log('🧠 Getting context for query:', query);
   const queryEmbeddings = await getEmbeddings(query);
+  console.log('🔢 Embeddings:', queryEmbeddings?.slice(0, 5));
+
   const matches = await getMatchesFromEmbeddings(queryEmbeddings, fileKey);
+  console.log('📚 Matches found:', matches.length);
 
   const qualifyingDocs = matches.filter(
-    (match) => match.score && match.score > 0.7
+    (match) => match.score && match.score > 0.1
   );
+  console.log('✅ Qualifying docs:', qualifyingDocs.length);
 
   type Metadata = {
     text: string;
@@ -39,5 +44,8 @@ export async function getContext(query: string, fileKey: string) {
 
   let docs = qualifyingDocs.map((match) => (match.metadata as Metadata).text);
 
-  return docs.join('\n').substring(0, 2000);
+  const res = docs.join('\n').substring(0, 3000);
+  console.log('📄 Final context length:', res.length);
+
+  return res;
 }

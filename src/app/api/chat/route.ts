@@ -19,7 +19,7 @@ export async function POST(req: Request) {
   try {
     const { messages, chatId } = await req.json();
     const _chats = await db.select().from(chats).where(eq(chats.id, chatId));
-    if (!_chats) {
+    if (_chats.length == 0) {
       return NextResponse.json({ error: 'Chat not found' }, { status: 404 });
     }
     const fileKey = _chats[0].fileKey;
@@ -54,5 +54,16 @@ export async function POST(req: Request) {
     });
     const stream = OpenAIStream(res);
     return new StreamingTextResponse(stream);
-  } catch (err) {}
+  } catch (err) {
+    console.error('Chat route error:', err);
+    return new NextResponse(
+      JSON.stringify({ error: 'Internal server error' }),
+      {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+  }
 }
