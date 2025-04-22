@@ -24,15 +24,15 @@ const ChatPage = async ({ params }: Props) => {
 
   //_chats is the list we get from the database
   const _chats = await db.select().from(chats).where(eq(chats.userId, userId));
-  if (!chats) {
+  if (!_chats) {
     redirect('/');
   }
 
-  if (!(await _chats).find((chat) => chat.id === parseInt(chatId))) {
+  if (!_chats.find((chat) => chat.id === parseInt(chatId))) {
     redirect('/');
   }
 
-  const currChat = await _chats.find((chat) => chat.id === parseInt(chatId));
+  const currChat = _chats.find((chat) => chat.id === parseInt(chatId));
 
   return (
     <div className='flex max-h-screen overflow-scroll'>
