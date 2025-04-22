@@ -30,7 +30,6 @@ export async function uploadToS3(file: File) {
 
     await upload.then((data) => {
       console.log('successfully uploaded to S3', file_key);
-
     });
 
     return Promise.resolve({

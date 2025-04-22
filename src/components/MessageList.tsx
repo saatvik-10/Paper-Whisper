@@ -35,7 +35,6 @@ const MessageList = ({ messages, isLoading }: Props) => {
                 'rounded-lg text-sm ring-indigo-900/20 shadow py-1 ring-1 px-3',
                 {
                   'bg-indigo-200 text-indigo-800': msg.role === 'user',
-                  'bg-indigo-800 text-indigo-200': msg.role === 'assistant',
                 }
               )}
             >

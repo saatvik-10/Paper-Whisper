@@ -18,7 +18,6 @@ export async function getEmbeddings(text: string) {
     }
     return result.data[0].embedding as number[];
   } catch (err) {
-    console.log('Error generating embeddings', err);
     throw err;
   }
 }

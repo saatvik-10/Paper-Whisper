@@ -26,7 +26,6 @@ export const getPineconeClient = () => {
 
 export async function loadS3ToPinecone(fileKey: string) {
   //get the pdf from s3
-  console.log('downlaoding s3 file into the system');
   const file_name = await downloadFromS3(fileKey);
 
   if (!file_name) {
@@ -46,8 +45,6 @@ export async function loadS3ToPinecone(fileKey: string) {
   const client = await getPineconeClient();
   const pineconeIndex = await client.Index('paper-whisper');
   const namespace = pineconeIndex.namespace(convertToAscii(fileKey));
-
-  console.log('inserting vectors into pinecone');
 
   await namespace.upsert(vectors);
 
@@ -69,7 +66,6 @@ async function embedDocument(doc: Document) {
       },
     } as PineconeRecord;
   } catch (err) {
-    console.log('error in embedding the document', err);
     throw err;
   }
 }
