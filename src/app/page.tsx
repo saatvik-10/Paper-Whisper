@@ -4,10 +4,21 @@ import { auth } from '@clerk/nextjs/server';
 import Link from 'next/link';
 import { LogInIcon } from 'lucide-react';
 import FileUpload from '@/components/fileUpload';
+import { db } from '@/lib/db';
+import { eq } from 'drizzle-orm';
+import { chats } from '@/lib/db/schema';
 
 export default async function Home() {
   const { userId } = await auth();
   const isAuth = !!userId; //convert to boolean
+
+  let firstChat;
+  if (userId) {
+    firstChat = await db.select().from(chats).where(eq(chats.userId, userId));
+    if (firstChat) {
+      firstChat = firstChat[0];
+    }
+  }
 
   return (
     <div className='w-screen min-h-screen bg-gradient-to-l from-gray-800 via-gray-900 to-black'>
@@ -21,10 +32,14 @@ export default async function Home() {
           </div>
 
           <div className='flex mt-2'>
-            {isAuth && (
-              <Button className='bg-indigo-200 text-indigo-900 hover:cursor-pointer hover:bg-indigo-300'>
-                Go to chats
-              </Button>
+            {isAuth && firstChat && (
+              <>
+                <Link href={`/chat/${firstChat.id}`}>
+                  <Button className='bg-indigo-200 text-indigo-900 hover:cursor-pointer hover:bg-indigo-300'>
+                    Go to chats
+                  </Button>
+                </Link>
+              </>
             )}
           </div>
 
