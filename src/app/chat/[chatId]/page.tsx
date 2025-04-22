@@ -8,12 +8,6 @@ import { eq } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 import React from 'react';
 
-type Props = {
-  params: {
-    chatId: string;
-  };
-};
-
 const ChatPage = async ({
   params,
 }: {
