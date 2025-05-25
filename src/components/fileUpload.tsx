@@ -1,6 +1,5 @@
 'use client';
 
-import { uploadToS3 } from '@/lib/s3';
 import { useMutation } from '@tanstack/react-query';
 import { InboxIcon, Loader2 } from 'lucide-react';
 import React from 'react';
@@ -42,20 +41,40 @@ const FileUpload = () => {
 
       try {
         setUploading(true);
-        const data = await uploadToS3(file);
-        if (!data?.file_key || !data?.file_name) {
-          toast.error('Failed to upload file');
+        // 1. Get pre-signed URL from API
+        const presignRes = await fetch('/api/s3-presign', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fileName: file.name, fileType: file.type }),
+        });
+        const { uploadUrl, fileKey, error } = await presignRes.json();
+        if (!uploadUrl || !fileKey) {
+          toast.error('Failed to get S3 upload URL');
           return;
         }
-        mutate(data, {
-          onSuccess: ({ chat_id }) => {
-            toast.success('Chat created');
-            route.push(`chat/${chat_id}`);
-          },
-          onError: (err) => {
-            toast.error('Errro creating chat');
-          },
+        // 2. Upload file directly to S3
+        const uploadRes = await fetch(uploadUrl, {
+          method: 'PUT',
+          headers: { 'Content-Type': file.type },
+          body: file,
         });
+        if (!uploadRes.ok) {
+          toast.error('Failed to upload file to S3');
+          return;
+        }
+        // 3. Continue with chat creation
+        mutate(
+          { file_key: fileKey, file_name: file.name },
+          {
+            onSuccess: ({ chat_id }) => {
+              toast.success('Chat created');
+              route.push(`chat/${chat_id}`);
+            },
+            onError: (err) => {
+              toast.error('Error creating chat');
+            },
+          }
+        );
       } catch (err) {
         toast.error('Something went wrong');
       } finally {
