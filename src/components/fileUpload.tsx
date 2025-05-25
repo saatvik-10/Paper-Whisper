@@ -84,29 +84,34 @@ const FileUpload = () => {
   });
 
   return (
-    <div className='p-2 rounded-xl bg-indigo-200'>
-      <div
-        {...getRootProps({
-          className:
-            'border-dashed border-2 rounded-xl cursor-pointer border-indigo-500 bg-indigo-100 py-4 flex justify-center items-center flex-col',
-        })}
-      >
-        <input {...getInputProps()} />
-        {uploading ? (
-          <>
-            <Loader2 className='animate-spin text-indigo-800 h-8 w-8' />
-            <p className='mt-2 text-sm text-ingdigo-700'>
-              Neural circuits engaged... espere por favor !
-            </p>
-          </>
-        ) : (
-          <>
-            <InboxIcon className='h-9 w-9 text-indigo-600' />
-            <p className='mt-2 text-sm text-indigo-600'>Drop your PDF here</p>
-          </>
-        )}
+    <>
+      <div className='p-2 rounded-xl bg-indigo-200'>
+        <div
+          {...getRootProps({
+            className:
+              'border-dashed border-2 rounded-xl cursor-pointer border-indigo-500 bg-indigo-100 py-4 flex justify-center items-center flex-col',
+          })}
+        >
+          <input {...getInputProps()} />
+          {uploading ? (
+            <>
+              <Loader2 className='animate-spin text-indigo-800 h-8 w-8' />
+              <p className='mt-2 text-sm text-ingdigo-700'>
+                Neural circuits engaged... espere por favor !
+              </p>
+            </>
+          ) : (
+            <>
+              <InboxIcon className='h-9 w-9 text-indigo-600' />
+              <p className='mt-2 text-sm text-indigo-600'>Drop your PDF here</p>
+            </>
+          )}
+        </div>
       </div>
-    </div>
+      <span className='text-indigo-200 text-sm'>
+        Please wait for some time for the file to upload!
+      </span>
+    </>
   );
 };
 
